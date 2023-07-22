@@ -26,6 +26,39 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', UserSchema);
 
+// Create a Product schema
+const productSchema = new mongoose.Schema({
+  id: Number,
+  name: String,
+  price: Number,
+  image: String,
+  category: String,
+});
+
+const Product = mongoose.model('Product', productSchema);
+
+app.get('/api/products', async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.post('/api/products', async (req, res) => {
+  try {
+    const newProduct = req.body;
+    const product = new Product(newProduct);
+    await product.save();
+    res.status(201).json(product);
+  } catch (error) {
+    console.error('Error creating product:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 // Route to handle user registration
 app.post('/api/signup', async (req, res) => {
   const { email, password } = req.body;
