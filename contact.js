@@ -25,4 +25,28 @@ router.post('/contact', async (req, res) => {
   }
 });
 
+// Route to get all contact messages
+router.get('/contact', async (req, res) => {
+  try {
+    const messages = await ContactMessage.find().sort({ createdAt: -1 });
+    res.status(200).json(messages);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Route to delete a contact message by ID
+router.delete('/contact/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await ContactMessage.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Message deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+
 module.exports = router;
