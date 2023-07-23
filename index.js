@@ -210,6 +210,17 @@ app.post("/reset-password/:id/:token", async (req, res) => {
   }
 });
 
+app.delete('/api/products/:productId', async (req, res) => {
+  try {
+    const productId = req.params.productId;
+    await Product.deleteOne({ id: productId });
+    res.sendStatus(204);
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
