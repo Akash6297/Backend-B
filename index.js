@@ -87,7 +87,7 @@ const orderSchema = new mongoose.Schema({
   // selectedProduct: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }], // assuming you have a Product model for the products
   products: [
     {
-      product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+      selectedProduct: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
       count: { type: Number, required: true },
     },
   ],
