@@ -68,6 +68,52 @@ app.post('/api/products', async (req, res) => {
   }
 });
 
+
+// Create a MongoDB schema for the order data
+const orderSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  phone: { type: String, required: true },
+  address: { type: String, required: true },
+  country: { type: String, required: true },
+  state: { type: String, required: true },
+  district: { type: String, required: true },
+  selectedProduct: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }], // assuming you have a Product model for the products
+  count: { type: Number, required: true },
+  totalPrice: { type: Number, required: true },
+  isCashOnDelivery: { type: Boolean, required: true },
+});
+
+const Order = mongoose.model('Order', orderSchema);
+
+app.post('/api/orderform', async (req, res) => {
+  try {
+    const orderData = req.body;
+    const order = new Order(orderData);
+    await order.save();
+    res.json({ message: 'Order successfully saved to MongoDB.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error saving order to MongoDB.' });
+  }
+});
+
+// Define a route to get all orders
+app.get('/api/orderfrom', async (req, res) => {
+  try {
+    // Fetch all orders from the database
+    const orders = await Order.find();
+
+    // Respond with the orders data as JSON
+    res.json(orders);
+  } catch (error) {
+    // If there is an error, respond with an error message
+    res.status(500).json({ message: 'Error fetching orders from MongoDB.' });
+  }
+});
+
+
+
 // Route to handle user registration
 app.post('/api/signup', async (req, res) => {
   const { email, password } = req.body;
