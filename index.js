@@ -68,6 +68,12 @@ app.post('/api/products', async (req, res) => {
   }
 });
 
+const orderProductSchema = new mongoose.Schema({
+  product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+  count: { type: Number, required: true },
+});
+
+
 
 // Create a MongoDB schema for the order data
 const orderSchema = new mongoose.Schema({
