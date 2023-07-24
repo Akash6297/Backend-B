@@ -68,13 +68,6 @@ app.post('/api/products', async (req, res) => {
   }
 });
 
-// const orderProductSchema = new mongoose.Schema({
-//   product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
-//   count: { type: Number, required: true },
-// });
-
-
-
 // Create a MongoDB schema for the order data
 const orderSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -84,13 +77,7 @@ const orderSchema = new mongoose.Schema({
   country: { type: String, required: true },
   state: { type: String, required: true },
   district: { type: String, required: true },
-  selectedProduct: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product',count: { type: Number, required: true }, }], // assuming you have a Product model for the products
-  products: [
-    {
-      selectedProduct: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
-      count: { type: Number, required: true },
-    },
-  ],
+  selectedProduct: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product',count: { type: Number, required: true ,ref: 'Product'}, }], // assuming you have a Product model for the products
   count: { type: Number, required: true },
   totalPrice: { type: Number, required: true },
   isCashOnDelivery: { type: Boolean, required: true },
