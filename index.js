@@ -68,10 +68,10 @@ app.post('/api/products', async (req, res) => {
   }
 });
 
-const orderProductSchema = new mongoose.Schema({
-  product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
-  count: { type: Number, required: true },
-});
+// const orderProductSchema = new mongoose.Schema({
+//   product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+//   count: { type: Number, required: true },
+// });
 
 
 
@@ -85,7 +85,12 @@ const orderSchema = new mongoose.Schema({
   state: { type: String, required: true },
   district: { type: String, required: true },
   // selectedProduct: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }], // assuming you have a Product model for the products
-  products: [orderProductSchema],
+  products: [
+    {
+      product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+      count: { type: Number, required: true },
+    },
+  ],
   // count: { type: Number, required: true },
   totalPrice: { type: Number, required: true },
   isCashOnDelivery: { type: Boolean, required: true },
