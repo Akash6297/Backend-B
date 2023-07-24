@@ -84,9 +84,9 @@ const orderSchema = new mongoose.Schema({
   country: { type: String, required: true },
   state: { type: String, required: true },
   district: { type: String, required: true },
-  selectedProduct: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }], // assuming you have a Product model for the products
+  // selectedProduct: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }], // assuming you have a Product model for the products
   products: [orderProductSchema],
-  count: { type: Number, required: true },
+  // count: { type: Number, required: true },
   totalPrice: { type: Number, required: true },
   isCashOnDelivery: { type: Boolean, required: true },
 });
