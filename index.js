@@ -78,6 +78,12 @@ const orderSchema = new mongoose.Schema({
   state: { type: String, required: true },
   district: { type: String, required: true },
   selectedProduct: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product', },], // assuming you have a Product model for the products
+  products: [
+    {
+      name: { type: String, required: true },
+      count: { type: Number, required: true },
+    },
+  ],
   count: { type: Number, required: true },
   totalPrice: { type: Number, required: true },
   isCashOnDelivery: { type: Boolean, required: true },
