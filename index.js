@@ -103,6 +103,17 @@ app.post('/api/orderform', async (req, res) => {
   }
 });
 
+// Define a route to delete an order
+app.delete('/api/order/:id', async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    await Order.findByIdAndDelete(orderId);
+    res.json({ message: 'Order deleted successfully.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error deleting order.' });
+  }
+});
 // Define a route to get all orders
 app.get('/api/orderfrom', async (req, res) => {
   try {
