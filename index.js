@@ -27,13 +27,26 @@ mongoose.connect('mongodb+srv://akashmandal6297:6a14zm3h0QcHFjUt@cluster0.xwdlcd
 
 });
 
+// const UserSchema = new mongoose.Schema({
+//   email: { type: String, unique: true, required: true },
+//   password: { type: String, required: true },
+// });
+
+
+// const User = mongoose.model('User', UserSchema);
+
 const UserSchema = new mongoose.Schema({
+  name: { type: String, required: true },
   email: { type: String, unique: true, required: true },
+  // phone: { type: String, required: true },
+  // country: { type: String, required: true },
+  // state: { type: String, required: true },
+  // imageUrl: { type: String, required: true },
   password: { type: String, required: true },
 });
 
-
 const User = mongoose.model('User', UserSchema);
+
 
 // Create a Product schema
 const productSchema = new mongoose.Schema({
@@ -131,8 +144,64 @@ app.get('/api/orderfrom', async (req, res) => {
 
 
 // Route to handle user registration
+// app.post('/api/signup', async (req, res) => {
+//   const { email, password } = req.body;
+
+//   try {
+//     // Check if the user already exists
+//     let user = await User.findOne({ email });
+//     if (user) {
+//       return res.status(400).json({ error: 'User already exists' });
+//     }
+
+//     // Hash the password
+//     const salt = await bcrypt.genSalt(10);
+//     const hashedPassword = await bcrypt.hash(password, salt);
+
+//     // Create the new user
+//     user = new User({ email, password: hashedPassword });
+//     await user.save();
+
+//     res.status(201).json({ message: 'User registered successfully' });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Server error' });
+//   }
+// });
+
+// Route to handle user registration
+
+
+// Route to handle user sign-in
+// app.post('/api/signin', async (req, res) => {
+//   const { email, password } = req.body;
+
+//   try {
+//     // Check if the user exists
+//     let user = await User.findOne({ email });
+//     if (!user) {
+//       return res.status(400).json({ error: 'Invalid email or password' });
+//     }
+
+//     // Check the password
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) {
+//       return res.status(400).json({ error: 'Invalid email or password' });
+//     }
+
+//     res.status(200).json({ message: 'Sign in successful' });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Server error' });
+//   }
+// });
+// Import and use the contact route
+
+// ... (existing code)
+
+// Route to handle user registration
 app.post('/api/signup', async (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password, imageUrl } = req.body;
 
   try {
     // Check if the user already exists
@@ -146,13 +215,14 @@ app.post('/api/signup', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create the new user
-    user = new User({ email, password: hashedPassword });
+    user = new User({ name, email, password: hashedPassword, imageUrl });
     await user.save();
 
-    res.status(201).json({ message: 'User registered successfully' });
+    // Return the user data with name and imageUrl
+    res.status(201).json({ message: 'User registered successfully', user });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'An error occurred during registration' });
   }
 });
 
@@ -173,13 +243,17 @@ app.post('/api/signin', async (req, res) => {
       return res.status(400).json({ error: 'Invalid email or password' });
     }
 
-    res.status(200).json({ message: 'Sign in successful' });
+    // Return the user data with name and imageUrl
+    res.status(200).json({ message: 'Sign in successful', user });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'An error occurred during authentication' });
   }
 });
-// Import and use the contact route
+
+// ... (existing code)
+
+
 const contactRoute = require('./contact');
 app.use('/api', contactRoute);
 
