@@ -81,6 +81,22 @@ app.post('/api/products', async (req, res) => {
   }
 });
 
+
+app.get('/api/orders/:email', async (req, res) => {
+  try {
+    const userEmail = req.params.email;
+
+    // Fetch orders where the "email" field matches the signed-in user's email
+    const orders = await Order.find({ email: userEmail });
+    res.json(orders);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+
+
 // Create a MongoDB schema for the order data
 const orderSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -143,61 +159,7 @@ app.get('/api/orderfrom', async (req, res) => {
 
 
 
-// Route to handle user registration
-// app.post('/api/signup', async (req, res) => {
-//   const { email, password } = req.body;
 
-//   try {
-//     // Check if the user already exists
-//     let user = await User.findOne({ email });
-//     if (user) {
-//       return res.status(400).json({ error: 'User already exists' });
-//     }
-
-//     // Hash the password
-//     const salt = await bcrypt.genSalt(10);
-//     const hashedPassword = await bcrypt.hash(password, salt);
-
-//     // Create the new user
-//     user = new User({ email, password: hashedPassword });
-//     await user.save();
-
-//     res.status(201).json({ message: 'User registered successfully' });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Server error' });
-//   }
-// });
-
-// Route to handle user registration
-
-
-// Route to handle user sign-in
-// app.post('/api/signin', async (req, res) => {
-//   const { email, password } = req.body;
-
-//   try {
-//     // Check if the user exists
-//     let user = await User.findOne({ email });
-//     if (!user) {
-//       return res.status(400).json({ error: 'Invalid email or password' });
-//     }
-
-//     // Check the password
-//     const isMatch = await bcrypt.compare(password, user.password);
-//     if (!isMatch) {
-//       return res.status(400).json({ error: 'Invalid email or password' });
-//     }
-
-//     res.status(200).json({ message: 'Sign in successful' });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Server error' });
-//   }
-// });
-// Import and use the contact route
-
-// ... (existing code)
 
 // Route to handle user registration
 app.post('/api/signup', async (req, res) => {
