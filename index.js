@@ -101,6 +101,7 @@ app.get('/api/orders/:email', async (req, res) => {
 const orderSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
+  status: { type: String, default: 'Order-Confirmed' },
   phone: { type: String, required: true },
   address: { type: String, required: true },
   country: { type: String, required: true },
@@ -157,7 +158,20 @@ app.get('/api/orderfrom', async (req, res) => {
   }
 });
 
+app.put('/api/order/:id', async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    const newStatus = req.body.status; // Assume the frontend sends the new status in the request body
 
+    // Find the order by ID and update the status field
+    await Order.findByIdAndUpdate(orderId, { status: newStatus });
+
+    res.json({ message: 'Order status updated successfully.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error updating order status.' });
+  }
+});
 
 
 
